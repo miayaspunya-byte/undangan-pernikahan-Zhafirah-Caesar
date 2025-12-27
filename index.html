@@ -57,7 +57,7 @@ body {
   display: block;
   color: #8b1c1c;
   text-decoration: none;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 /* ===== BUTTON PREMIUM ===== */
@@ -65,82 +65,69 @@ body {
   background: linear-gradient(135deg, #8b1c1c, #c0392b);
   color: #fff;
   border: none;
-  padding: 14px 28px;
+  padding: 14px 32px;
   border-radius: 30px;
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
   transition: all .3s ease;
 }
 
 .btn-open:hover {
-  transform: scale(1.05);
-}
-
-/* ===== RSVP POPUP ===== */
-#rsvp-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
-}
-
-#rsvp-box {
-  background: #fff;
-  padding: 26px 22px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 320px;
-  text-align: center;
-  animation: fadeUp .4s ease;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-#rsvp-box h2 {
-  color: #8b1c1c;
-  margin-bottom: 12px;
-}
-
-#rsvp-box input,
-#rsvp-box select {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 18px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-#rsvp-box button {
-  background: #8b1c1c;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  width: 100%;
-  border-radius: 22px;
-  font-size: 15px;
-  cursor: pointer;
+  transform: scale(1.06);
 }
 
 /* ===== CONTENT ===== */
 #content {
   display: none;
-  width: 100vw;
+  background: #000;
+}
+
+/* ===== VIDEO ===== */
+video {
+  width: 100%;
   height: 100vh;
+  object-fit: contain;
   background: black;
 }
 
-video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+/* ===== RSVP SECTION ===== */
+#rsvp {
+  background: #fff;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+#rsvp h2 {
+  color: #8b1c1c;
+  margin-bottom: 14px;
+  font-size: 22px;
+}
+
+#rsvp p {
+  margin-bottom: 18px;
+  color: #444;
+}
+
+#rsvp input,
+#rsvp select {
+  width: 90%;
+  max-width: 340px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+#rsvp button {
+  background: #8b1c1c;
+  color: #fff;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 28px;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -159,14 +146,23 @@ video {
       📍 Lihat Lokasi
     </a>
 
-    <button class="btn-open" onclick="openRSVP()">Buka Undangan</button>
+    <button class="btn-open" onclick="openInvitation()">Buka Undangan</button>
   </div>
 </div>
 
-<!-- ===== RSVP MODAL ===== -->
-<div id="rsvp-modal">
-  <div id="rsvp-box">
+<!-- ===== CONTENT ===== -->
+<div id="content">
+
+  <!-- VIDEO -->
+  <video id="video" playsinline muted>
+    <source src="./video.mp4" type="video/mp4">
+  </video>
+
+  <!-- RSVP -->
+  <div id="rsvp">
     <h2>Konfirmasi Kehadiran</h2>
+    <p>Merupakan kehormatan bagi kami jika Anda berkenan hadir</p>
+
     <form onsubmit="sendRSVP(event)">
       <input type="text" id="nama" placeholder="Nama Anda" required>
 
@@ -179,40 +175,10 @@ video {
       <button type="submit">Kirim RSVP</button>
     </form>
   </div>
-</div>
 
-<!-- ===== VIDEO ===== -->
-<div id="content">
-  <video id="video" playsinline muted>
-    <source src="./video.mp4" type="video/mp4">
-  </video>
 </div>
 
 <script>
-/* ===== OPEN RSVP ===== */
-function openRSVP() {
-  document.getElementById('rsvp-modal').style.display = 'flex';
-}
-
-/* ===== SEND RSVP ===== */
-function sendRSVP(e) {
-  e.preventDefault();
-
-  const nama = document.getElementById('nama').value;
-  const hadir = document.getElementById('kehadiran').value;
-
-  const nomorWA = "6282330009801"; //
-  const pesan =
-    `RSVP Undangan Pernikahan%0A` +
-    `Nama: ${nama}%0A` +
-    `Kehadiran: ${hadir}`;
-
-  window.open(`https://wa.me/${nomorWA}?text=${pesan}`, '_blank');
-
-  document.getElementById('rsvp-modal').style.display = 'none';
-  openInvitation();
-}
-
 /* ===== OPEN INVITATION + AUTOPLAY ===== */
 function openInvitation() {
   document.getElementById('cover').style.display = 'none';
@@ -241,6 +207,22 @@ setInterval(() => {
 
   countdownEl.innerHTML = `${days} hari • ${hours} jam • ${minutes} menit`;
 }, 1000);
+
+/* ===== RSVP WHATSAPP ===== */
+function sendRSVP(e) {
+  e.preventDefault();
+
+  const nama = document.getElementById('nama').value;
+  const hadir = document.getElementById('kehadiran').value;
+
+  const nomorWA = "6282330009801"; //
+  const pesan =
+    `RSVP Undangan Pernikahan%0A` +
+    `Nama: ${nama}%0A` +
+    `Kehadiran: ${hadir}`;
+
+  window.open(`https://wa.me/${nomorWA}?text=${pesan}`, '_blank');
+}
 </script>
 
 </body>
