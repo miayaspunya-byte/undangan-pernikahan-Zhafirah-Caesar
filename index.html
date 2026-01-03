@@ -60,7 +60,7 @@ body {
   margin-bottom: 16px;
 }
 
-/* ===== BUTTON PREMIUM ===== */
+/* ===== BUTTON ===== */
 .btn-open {
   background: linear-gradient(135deg, #8b1c1c, #c0392b);
   color: #fff;
@@ -91,7 +91,7 @@ video {
   background: black;
 }
 
-/* ===== RSVP SECTION ===== */
+/* ===== RSVP ===== */
 #rsvp {
   background: #fff;
   padding: 50px 20px;
@@ -172,6 +172,16 @@ video {
         <option value="Tidak Hadir">Tidak Hadir</option>
       </select>
 
+      <!-- JUMLAH KEHADIRAN -->
+      <select id="jumlah" required>
+        <option value="">Jumlah Kehadiran</option>
+        <option value="1">1 Orang</option>
+        <option value="2">2 Orang</option>
+        <option value="3">3 Orang</option>
+        <option value="4">4 Orang</option>
+        <option value="5">5 Orang</option>
+      </select>
+
       <button type="submit">Kirim RSVP</button>
     </form>
   </div>
@@ -179,13 +189,12 @@ video {
 </div>
 
 <script>
-/* ===== OPEN INVITATION + AUTOPLAY ===== */
+/* ===== OPEN INVITATION ===== */
 function openInvitation() {
   document.getElementById('cover').style.display = 'none';
   document.getElementById('content').style.display = 'block';
 
-  const video = document.getElementById('video');
-  video.play();
+  document.getElementById('video').play();
 }
 
 /* ===== COUNTDOWN ===== */
@@ -214,12 +223,14 @@ function sendRSVP(e) {
 
   const nama = document.getElementById('nama').value;
   const hadir = document.getElementById('kehadiran').value;
+  const jumlah = document.getElementById('jumlah').value;
 
-  const nomorWA = "6282330009801"; //
+  const nomorWA = "6282330009801";
   const pesan =
     `RSVP Undangan Pernikahan%0A` +
     `Nama: ${nama}%0A` +
-    `Kehadiran: ${hadir}`;
+    `Kehadiran: ${hadir}%0A` +
+    `Jumlah Hadir: ${jumlah} Orang`;
 
   window.open(`https://wa.me/${nomorWA}?text=${pesan}`, '_blank');
 }
